@@ -1,3 +1,8 @@
+buildscript {
+    ext {
+        log4j2Version = "2.17.1"
+    }
+}
 plugins {
     id 'java'
     id 'war'
@@ -18,8 +23,20 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "io.jsonwebtoken:jjwt-api:0.11.5"
+    implementation "org.apache.logging.log4j:log4j-api:$log4j2Version"
+    implementation "org.apache.logging.log4j:log4j-core:$log4j2Version"
+    implementation "org.apache.logging.log4j:log4j-web:$log4j2Version"
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:$log4j2Version"
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly "io.jsonwebtoken:jjwt-impl:0.11.5"
+    runtimeOnly "io.jsonwebtoken:jjwt-jackson:0.11.5"
+    compileOnly "org.projectlombok:lombok"
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
 
 tasks.named('test') {
