@@ -1,10 +1,16 @@
 package com.backend.teamant.coach.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Coach {
 
     @Id
@@ -16,4 +22,10 @@ public class Coach {
     private String auth;
     private String password;
     private String phoneNumber;
+
+    public void update(String coachId, String coachName, String phoneNumber) {
+        this.coachId = coachId;
+        this.coachName = coachName;
+        this.phoneNumber = phoneNumber;
+    }
 }

@@ -1,5 +1,7 @@
 package com.backend.teamant.coach.controller;
 
+import com.backend.teamant.coach.request.CoachSaveRequest;
+import com.backend.teamant.coach.request.CoachUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import com.backend.teamant.coach.entity.Coach;
 import com.backend.teamant.coach.response.CoachResponse;
@@ -68,16 +70,34 @@ public class CoachController {
         }
     }
 
-    @GetMapping("/api/register")
-    public CommonResponse<?> register(@RequestBody Coach coach) {
-        Coach coachInfo = coachService.save(coach);
-        return CommonResponse.ok(coachInfo.getCoachId());
+
+    @PostMapping("/save")
+    public CommonResponse<CoachResponse> saveCoachInfo(@RequestBody CoachSaveRequest requestDto) {
+        Coach coach = coachService.saveCoachInfo(requestDto);
+        return CommonResponse.ok(CoachResponse.of(coach));
     }
 
+    @DeleteMapping("/delete/{coachId}")
+    public CommonResponse<?> deleteCoachInfo(@PathVariable Long coachId) {
+        coachService.deleteCoachInfo(coachId);
+        return CommonResponse.ok();
+    }
+
+    @PutMapping("/update/{id}")
+    public CommonResponse<CoachResponse> updateCoachInfo(@PathVariable Long id, @RequestBody CoachUpdateRequest requestDto) {
+        Coach coach = coachService.updateCoachInfo(id, requestDto);
+        return CommonResponse.ok(CoachResponse.of(coach));
+    }
+
+    @GetMapping("/{coachId}")
+    public CommonResponse<CoachResponse> getCoachInfo(@PathVariable Long coachId) {
+        Coach coach = coachService.getCoachInfo(coachId);
+        return CommonResponse.ok(CoachResponse.of(coach));
+    }
     @GetMapping("/api/duplication")
     public CommonResponse<?> duplication(@RequestBody String coachId) {
-        Coach coach = coachService.getCoachInfo(coachId);
-        if(coach != null) {
+        Boolean isExist = coachService.findByCoachId(coachId);
+        if(Boolean.FALSE.equals(isExist)) {
             return CommonResponse.error("이미 등록된 아이디 입니다.");
         }
         return CommonResponse.ok();

@@ -22,4 +22,12 @@ public class CoachResponse {
                 .token(jwtResponse)
                 .build();
     }
+
+    public static CoachResponse of(Coach coach) {
+        return CoachResponse.builder()
+                .coachId(coach.getCoachId())
+                .password(coach.getPassword())
+                .auth(coach.getAuth())
+                .build();
+    }
 }
